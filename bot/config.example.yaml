@@ -1,0 +1,40 @@
+# Copy to config.yaml and fill in. NEVER commit config.yaml (it has secrets).
+shoonya:
+  userid: "YOUR_SHOONYA_CLIENT_ID"     # e.g. FA123456
+  password: "YOUR_PASSWORD"
+  pin_2fa: "YOUR_PIN_OR_TOTP"          # login 2FA: DOB+PAN style PIN, or TOTP if enabled
+  vendor_code: "YOUR_VENDOR_CODE"      # from https://api.shoonya.com
+  api_secret: "YOUR_API_SECRET"
+  imei: "abc1234"                      # any static string, kept constant
+
+instrument:
+  exchange: "MCX"
+  token: "451580"                      # GOLDPETAL current-month token (verify via SearchScrip / master)
+  symbol: "GOLDPETAL27NOVFUT"          # example format; ALWAYS re-resolve monthly expiry
+  trading_symbol_desc: "GOLDPETAL = 1 gram gold, 1 lot = 1 unit, tick Rs 1"
+
+strategy:
+  id: "supertrend"                       # current 10y backtest winner (lowest loss per unit return).
+                                         # re-run backtest.py on YOUR MCX data; if another id wins there,
+                                         # set it here — trust your data over this default.
+  entry: 20                              # used by champion/donchian
+  exit: 10
+  atr_period: 14
+  atr_mult: 3.0
+  rsi_period: 14
+  rsi_min: 45
+  timeframe: "day"                       # day = positional (recommended, lowest long-term loss)
+  long_only: true
+
+risk:
+  equity: 200000.0                     # total trading capital (Rs)
+  risk_pct: 1.0                        # risk per trade (% of equity)
+  max_leverage: 3
+  margin_per_lot: 6000.0               # update from Shoonya RMS / margin calculator
+  max_lots: 20
+  daily_max_loss_pct: 3.0              # kill-switch: stop trading for the day
+
+session:
+  mode: "paper"                        # paper | live
+  poll_seconds: 60
+  product: "M"                         # M = NRML (positional), I = intraday
